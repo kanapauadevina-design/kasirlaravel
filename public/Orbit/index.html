@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Orbit - Technology</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #172033;
+            background: #f8f9ff;
+        }
+
+        /* =================================
+           NAVBAR
+        ================================= */
+
+        .navbar {
+            height: 72px;
+            width: 100%;
+
+            background: rgba(255,255,255,0.95);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 8%;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            border-bottom: 1px solid #f0f1f5;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #101827;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            font-size: 12px;
+            color: #6b7280;
+            transition: .2s;
+        }
+
+        .nav-menu a:hover {
+            color: #1683e8;
+        }
+
+        .nav-button {
+            background: #0d8de8;
+            color: white !important;
+
+            padding: 9px 20px;
+            border-radius: 20px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+
+        /* =================================
+           HERO
+        ================================= */
+
+        .hero {
+            min-height: 450px;
+
+            position: relative;
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 10% 40%,
+                    rgba(104, 203, 255, .22),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 90% 30%,
+                    rgba(97, 177, 255, .18),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #eef8ff,
+                    #f5f8ff
+                );
+
+            display: flex;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            background: rgba(255,255,255,.45);
+
+            border-radius: 50%;
+
+            right: -120px;
+            top: -100px;
+
+            filter: blur(5px);
+        }
+
+        .hero-container {
+            width: 1100px;
+            max-width: 90%;
+
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            align-items: center;
+
+            gap: 50px;
+
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-small {
+            font-size: 11px;
+            font-weight: 600;
+
+            color: #078bdc;
+
+            margin-bottom: 12px;
+        }
+
+        .hero-title {
+            font-size: 42px;
+            line-height: 1.12;
+
+            max-width: 470px;
+
+            color: #182333;
+
+            margin-bottom: 15px;
+        }
+
+        .hero-description {
+            font-size: 12px;
+            line-height: 1.7;
+
+            color: #778196;
+
+            max-width: 450px;
+
+            margin-bottom: 20px;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .primary-btn {
+            border: none;
+
+            background: #0d91e8;
+            color: white;
+
+            padding: 10px 20px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            cursor: pointer;
+        }
+
+        .secondary-btn {
+            border: none;
+            background: transparent;
+
+            color: #687386;
+
+            font-size: 10px;
+
+            cursor: pointer;
+        }
+
+
+        /* =================================
+           STATISTIC CARDS
+        ================================= */
+
+        .statistics {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+            max-width: 430px;
+        }
+
+        .stat-card {
+            min-height: 85px;
+
+            border-radius: 7px;
+
+            background: rgba(255,255,255,.8);
+
+            border: 1px solid rgba(220,230,240,.7);
+
+            box-shadow: 0 7px 20px rgba(45, 90, 140, .05);
+
+            padding: 17px;
+
+            display: flex;
+            align-items: flex-start;
+
+            gap: 12px;
+        }
+
+        .stat-card.highlight {
+            background: #0c91e8;
+            color: white;
+        }
+
+        .stat-icon {
+            width: 27px;
+            height: 27px;
+
+            border-radius: 6px;
+
+            background: #eaf7ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #078de5;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .highlight .stat-icon {
+            background: rgba(255,255,255,.2);
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 18px;
+            font-weight: 700;
+
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 9px;
+            color: #8b96a7;
+        }
+
+        .highlight .stat-label {
+            color: rgba(255,255,255,.8);
+        }
+
+
+        /* =================================
+           TECHNOLOGY SECTION
+        ================================= */
+
+        .technology {
+            min-height: 500px;
+
+            background: #f9f9ff;
+
+            padding: 85px 0;
+        }
+
+        .technology-container {
+            width: 1000px;
+            max-width: 88%;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            align-items: center;
+
+            gap: 80px;
+        }
+
+
+        /* =================================
+           IMAGE COLLAGE
+        ================================= */
+
+        .collage {
+            position: relative;
+
+            width: 450px;
+            height: 320px;
+
+            max-width: 100%;
+        }
+
+        .photo {
+            position: absolute;
+
+            overflow: hidden;
+
+            border-radius: 6px;
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,.12);
+
+            background: #dfe8f0;
+        }
+
+        .photo img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .photo-one {
+            width: 230px;
+            height: 150px;
+
+            left: 30px;
+            top: 70px;
+
+            z-index: 1;
+        }
+
+        .photo-two {
+            width: 145px;
+            height: 190px;
+
+            right: 70px;
+            top: 25px;
+
+            z-index: 2;
+        }
+
+        .photo-three {
+            width: 150px;
+            height: 135px;
+
+            right: 0;
+            bottom: 20px;
+
+            z-index: 3;
+        }
+
+        .photo-four {
+            width: 110px;
+            height: 80px;
+
+            left: 0;
+            bottom: 40px;
+
+            z-index: 4;
+        }
+
+
+        /* BLUE NUMBER BADGE */
+
+        .number-badge {
+            position: absolute;
+
+            left: 5px;
+            top: 55px;
+
+            width: 70px;
+            height: 65px;
+
+            border-radius: 6px;
+
+            background: #0698e9;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            z-index: 10;
+
+            box-shadow: 0 8px 20px rgba(0,140,220,.2);
+        }
+
+        .number-badge strong {
+            font-size: 21px;
+        }
+
+        .number-badge span {
+            font-size: 8px;
+            margin-top: 3px;
+        }
+
+
+        /* =================================
+           TECHNOLOGY CONTENT
+        ================================= */
+
+        .technology-content small {
+            color: #0b92dc;
+
+            font-size: 9px;
+            font-weight: bold;
+
+            text-transform: uppercase;
+        }
+
+        .technology-content h2 {
+            font-size: 27px;
+
+            line-height: 1.2;
+
+            margin: 8px 0 12px;
+
+            color: #202b3b;
+        }
+
+        .technology-content > p {
+            font-size: 11px;
+
+            line-height: 1.7;
+
+            color: #7c8799;
+
+            max-width: 420px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =================================
+           FEATURE LIST
+        ================================= */
+
+        .features {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+
+            margin-bottom: 22px;
+        }
+
+        .feature {
+            background: white;
+
+            border: 1px solid #edf0f5;
+
+            border-radius: 5px;
+
+            padding: 10px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 9px;
+
+            color: #667085;
+        }
+
+        .feature-icon {
+            width: 17px;
+            height: 17px;
+
+            background: #e9f8ff;
+
+            color: #0696e6;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 8px;
+        }
+
+
+        /* =================================
+           NUMBERS
+        ================================= */
+
+        .small-statistics {
+            display: flex;
+
+            gap: 30px;
+
+            margin-bottom: 18px;
+        }
+
+        .small-stat strong {
+            display: block;
+
+            font-size: 17px;
+
+            color: #0792dc;
+        }
+
+        .small-stat span {
+            font-size: 8px;
+
+            color: #8b95a5;
+        }
+
+
+        /* =================================
+           FLOATING MENU
+        ================================= */
+
+        .floating-menu {
+            position: fixed;
+
+            right: 20px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 43px;
+            height: 43px;
+
+            border-radius: 9px;
+
+            background: white;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,.12);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            z-index: 50;
+
+            cursor: pointer;
+        }
+
+        .floating-menu span {
+            display: block;
+
+            width: 20px;
+            height: 2px;
+
+            background: #222;
+
+            margin: 3px 0;
+
+            border-radius: 3px;
+        }
+
+
+        /* =================================
+           FOOTER
+        ================================= */
+
+        footer {
+            background: #111827;
+
+            color: white;
+
+            padding: 25px;
+
+            text-align: center;
+
+            font-size: 10px;
+        }
+
+
+        /* =================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 800px) {
+
+            .navbar {
+                height: 60px;
+                padding: 0 6%;
+            }
+
+            .nav-menu {
+                display: none;
+
+                position: absolute;
+
+                top: 60px;
+                left: 0;
+
+                width: 100%;
+
+                background: white;
+
+                flex-direction: column;
+
+                padding: 20px;
+
+                box-shadow: 0 10px 20px rgba(0,0,0,.05);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+
+            .hero {
+                padding: 65px 0;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 32px;
+                margin: auto auto 15px;
+            }
+
+            .hero-description {
+                margin: auto auto 20px;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .statistics {
+                margin: auto;
+            }
+
+
+            .technology {
+                padding: 60px 0;
+            }
+
+            .technology-container {
+                grid-template-columns: 1fr;
+
+                gap: 50px;
+
+                text-align: center;
+            }
+
+            .collage {
+                margin: auto;
+            }
+
+            .technology-content > p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .features {
+                text-align: left;
+            }
+
+            .small-statistics {
+                justify-content: center;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            .hero-title {
+                font-size: 27px;
+            }
+
+            .statistics {
+                grid-template-columns: 1fr 1fr;
+
+                width: 100%;
+            }
+
+            .stat-card {
+                min-height: 75px;
+                padding: 12px;
+            }
+
+            .stat-number {
+                font-size: 15px;
+            }
+
+            .collage {
+                height: 250px;
+            }
+
+            .photo-one {
+                width: 170px;
+                height: 115px;
+                left: 20px;
+            }
+
+            .photo-two {
+                width: 110px;
+                height: 145px;
+                right: 45px;
+            }
+
+            .photo-three {
+                width: 110px;
+                height: 100px;
+            }
+
+            .photo-four {
+                width: 80px;
+                height: 60px;
+            }
+
+            .number-badge {
+                width: 58px;
+                height: 55px;
+            }
+
+            .number-badge strong {
+                font-size: 17px;
+            }
+
+            .technology-content h2 {
+                font-size: 23px;
+            }
+
+            .floating-menu {
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     NAVBAR
+=========================================== -->
+
+<header class="navbar">
+
+    <div class="logo">
+        Orbit
+    </div>
+
+    <nav class="nav-menu" id="navMenu">
+
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#service">Service</a>
+        <a href="#technology">Technology</a>
+        <a href="#contact">Contact</a>
+
+        <a href="#login" class="nav-button">
+            Login
+        </a>
+
+    </nav>
+
+    <div class="hamburger" onclick="toggleMenu()">
+        ☰
+    </div>
+
+</header>
+
+
+<!-- ==========================================
+     HERO
+=========================================== -->
+
+<section class="hero" id="home">
+
+    <div class="hero-container">
+
+        <!-- LEFT -->
+
+        <div>
+
+            <div class="hero-small">
+                INNOVATION • TECHNOLOGY
+            </div>
+
+            <h1 class="hero-title">
+                Crafting Exceptional
+                <br>
+                Digital Experiences
+            </h1>
+
+            <p class="hero-description">
+                Kami menghadirkan solusi digital inovatif
+                untuk membantu bisnis berkembang lebih cepat,
+                efisien, dan modern melalui teknologi.
+            </p>
+
+            <div class="hero-actions">
+
+                <button
+                    class="primary-btn"
+                    onclick="explore()"
+                >
+                    Explore Services
+                </button>
+
+                <button
+                    class="secondary-btn"
+                    onclick="contactUs()"
+                >
+                    ▶ Watch Demo
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT -->
+
+        <div class="statistics">
+
+            <div class="stat-card highlight">
+
+                <div class="stat-icon">
+                    ★
+                </div>
+
+                <div>
+                    <div class="stat-number">
+                        150+
+                    </div>
+
+                    <div class="stat-label">
+                        Projects Completed
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <div class="stat-number">
+                        95%
+                    </div>
+
+                    <div class="stat-label">
+                        Client Satisfaction
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ◇
+                </div>
+
+                <div>
+                    <div class="stat-number">
+                        12+
+                    </div>
+
+                    <div class="stat-label">
+                        Years Experience
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ♙
+                </div>
+
+                <div>
+                    <div class="stat-number">
+                        40+
+                    </div>
+
+                    <div class="stat-label">
+                        Expert Team
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     TECHNOLOGY SECTION
+=========================================== -->
+
+<section class="technology" id="technology">
+
+    <div class="technology-container">
+
+
+        <!-- IMAGE COLLAGE -->
+
+        <div class="collage">
+
+            <div class="number-badge">
+                <strong>12</strong>
+                <span>YEARS EXPERIENCE</span>
+            </div>
+
+
+            <div class="photo photo-one">
+                <img
+                    src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=700&q=80"
+                    alt="Team"
+                >
+            </div>
+
+
+            <div class="photo photo-two">
+                <img
+                    src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=500&q=80"
+                    alt="Technology"
+                >
+            </div>
+
+
+            <div class="photo photo-three">
+                <img
+                    src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=500&q=80"
+                    alt="Business"
+                >
+            </div>
+
+
+            <div class="photo photo-four">
+                <img
+                    src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=400&q=80"
+                    alt="Team working"
+                >
+            </div>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="technology-content">
+
+            <small>
+                About Orbit
+            </small>
+
+            <h2>
+                Innovating for Your Success
+                Through Technology
+            </h2>
+
+            <p>
+                Kami mengembangkan solusi digital yang
+                menggabungkan teknologi modern, kreativitas,
+                dan strategi bisnis untuk memberikan hasil
+                terbaik bagi setiap pelanggan.
+            </p>
+
+
+            <!-- FEATURES -->
+
+            <div class="features">
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    Fast Delivery
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ★
+                    </div>
+
+                    Quality Assured
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    Expert Team
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ◇
+                    </div>
+
+                    24/7 Support
+
+                </div>
+
+            </div>
+
+
+            <!-- SMALL STAT -->
+
+            <div class="small-statistics">
+
+                <div class="small-stat">
+                    <strong>150</strong>
+                    <span>Projects</span>
+                </div>
+
+                <div class="small-stat">
+                    <strong>95</strong>
+                    <span>Happy Clients</span>
+                </div>
+
+                <div class="small-stat">
+                    <strong>25</strong>
+                    <span>Awards</span>
+                </div>
+
+            </div>
+
+
+            <button
+                class="primary-btn"
+                onclick="learnMore()"
+            >
+                Discover More
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     FLOATING MENU
+=========================================== -->
+
+<div class="floating-menu" onclick="toggleMenu()">
+
+    <div>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     FOOTER
+=========================================== -->
+
+<footer id="contact">
+    © 2026 Orbit Technology. All Rights Reserved.
+</footer>
+
+
+<!-- ==========================================
+     JAVASCRIPT
+=========================================== -->
+
+<script>
+
+    function toggleMenu() {
+
+        const menu =
+            document.getElementById("navMenu");
+
+        menu.classList.toggle("active");
+
+    }
+
+
+    function explore() {
+
+        document
+            .getElementById("technology")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+    function contactUs() {
+
+        alert(
+            "Demo video akan segera tersedia."
+        );
+
+    }
+
+
+    function learnMore() {
+
+        alert(
+            "Terima kasih telah memilih Orbit!"
+        );
+
+    }
+
+</script>
+
+</body>
+</html>

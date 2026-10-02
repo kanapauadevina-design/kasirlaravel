@@ -1,0 +1,376 @@
+const products = [
+    {
+        id: 1,
+        code: "BRG001",
+        barcode: "899123456001",
+        name: "Indomie Goreng",
+        price: 3500
+    },
+    {
+        id: 2,
+        code: "BRG002",
+        barcode: "899123456002",
+        name: "Aqua 600ml",
+        price: 4000
+    },
+    {
+        id: 3,
+        code: "BRG003",
+        barcode: "899123456003",
+        name: "Teh Botol Sosro",
+        price: 5000
+    },
+    {
+        id: 4,
+        code: "BRG004",
+        barcode: "899123456004",
+        name: "Beras 5 Kg",
+        price: 75000
+    },
+    {
+        id: 5,
+        code: "BRG005",
+        barcode: "899123456005",
+        name: "Minyak Goreng 1 Liter",
+        price: 18000
+    },
+    {
+        id: 6,
+        code: "BRG006",
+        barcode: "899123456006",
+        name: "Gula Pasir 1 Kg",
+        price: 17000
+    }
+];
+
+let cart = [];
+
+const searchInput = document.getElementById("searchProduct");
+
+searchInput.addEventListener("input", searchProduct);
+
+function searchProduct() {
+    const keyword = searchInput.value.toLowerCase();
+    const results = document.getElementById("productResults");
+
+    if (keyword === "") {
+        results.innerHTML = "";
+        return;
+    }
+
+    const filtered = products.filter(product =>
+        product.name.toLowerCase().includes(keyword) ||
+        product.code.toLowerCase().includes(keyword) ||
+        product.barcode.includes(keyword)
+    );
+
+    results.innerHTML = "";
+
+    filtered.forEach(product => {
+        results.innerHTML += `
+            <div class="product-result"
+                 onclick="addToCart(${product.id})">
+                <strong>${product.name}</strong>
+                <span>${formatRupiah(product.price)}</span>
+            </div>
+        `;
+    });
+}
+
+function formatRupiah(value) {
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0
+    }).format(value);
+}
+
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+
+    const existing = cart.find(item => item.id === productId);
+
+    if (existing) {
+        existing.qty++;
+    } else {
+        cart.push({
+            ...product,
+            qty: 1
+        });
+    }
+
+    searchInput.value = "";
+    document.getElementById("productResults").innerHTML = "";
+
+    renderCart();
+}
+
+function renderCart() {
+    const cartBody = document.getElementById("cartBody");
+
+    cartBody.innerHTML = "";
+
+    let totalQty = 0;
+
+    if (cart.length === 0) {
+        cartBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty-cart">
+                    Belum ada barang
+                </td>
+            </tr>
+        `;
+    }
+
+    cart.forEach((item, index) => {
+        totalQty += item.qty;
+
+        const subtotal = item.price * item.qty;
+
+        cartBody.innerHTML += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${item.name}</td>
+                <td>${formatRupiah(item.price)}</td>
+
+                <td>
+                    <div class="qty-control">
+                        <button onclick="changeQty(${item.id}, -1)">-</button>
+
+                        <input type="number"
+                               value="${item.qty}"
+                               min="1"
+                               onchange="updateQty(${item.id}, this.value)">
+
+                        <button onclick="changeQty(${item.id}, 1)">+</button>
+                    </div>
+                </td>
+
+                <td>${formatRupiah(subtotal)}</td>
+
+                <td>
+                    <button class="btn-remove"
+                            onclick="removeItem(${item.id})">
+                        ×
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+
+    document.getElementById("itemCount").innerText =
+        `${totalQty} Item`;
+
+    calculateTotal();
+}
+
+function changeQty(id, amount) {
+    const item = cart.find(item => item.id === id);
+
+    if (!item) return;
+
+    item.qty += amount;
+
+    if (item.qty <= 0) {
+        removeItem(id);
+        return;
+    }
+
+    renderCart();
+}
+
+function updateQty(id, qty) {
+    const item = cart.find(item => item.id === id);
+
+    if (!item) return;
+
+    qty = parseInt(qty);
+
+    if (isNaN(qty) || qty < 1) {
+        qty = 1;
+    }
+
+    item.qty = qty;
+
+    renderCart();
+}
+
+function removeItem(id) {
+    cart = cart.filter(item => item.id !== id);
+
+    renderCart();
+}
+
+function calculateTotal() {
+    let subtotal = 0;
+    let totalQty = 0;
+
+    cart.forEach(item => {
+        subtotal += item.price * item.qty;
+        totalQty += item.qty;
+    });
+
+    const discountPercent =
+        parseFloat(document.getElementById("discountPercent").value) || 0;
+
+    const discountAmount =
+        subtotal * discountPercent / 100;
+
+    const tax =
+        parseFloat(document.getElementById("tax").value) || 0;
+
+    const otherFee =
+        parseFloat(document.getElementById("otherFee").value) || 0;
+
+    const grandTotal =
+        subtotal - discountAmount + tax + otherFee;
+
+    document.getElementById("totalQty").innerText =
+        totalQty;
+
+    document.getElementById("subtotal").innerText =
+        formatRupiah(subtotal);
+
+    document.getElementById("discountAmount").innerText =
+        formatRupiah(discountAmount);
+
+    document.getElementById("grandTotal").innerText =
+        formatRupiah(grandTotal);
+
+    calculateChange();
+}
+
+function calculateChange() {
+    const payment =
+        parseFloat(document.getElementById("payment").value) || 0;
+
+    const total = getGrandTotal();
+
+    const changeBox = document.getElementById("changeBox");
+    const change = document.getElementById("change");
+
+    if (payment >= total && total > 0) {
+        changeBox.innerText = "Kembalian";
+        change.innerText = formatRupiah(payment - total);
+    } else if (payment > 0 && payment < total) {
+        changeBox.innerText = "Uang Kurang";
+        change.innerText = formatRupiah(total - payment);
+    } else {
+        changeBox.innerText = "Kembalian";
+        change.innerText = formatRupiah(0);
+    }
+}
+
+function getGrandTotal() {
+    let subtotal = 0;
+
+    cart.forEach(item => {
+        subtotal += item.price * item.qty;
+    });
+
+    const discountPercent =
+        parseFloat(document.getElementById("discountPercent").value) || 0;
+
+    const discountAmount =
+        subtotal * discountPercent / 100;
+
+    const tax =
+        parseFloat(document.getElementById("tax").value) || 0;
+
+    const otherFee =
+        parseFloat(document.getElementById("otherFee").value) || 0;
+
+    return subtotal - discountAmount + tax + otherFee;
+}
+
+function selectPayment(button) {
+    document.querySelectorAll(".payment-method button")
+        .forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+}
+
+function holdTransaction() {
+    if (cart.length === 0) {
+        alert("Keranjang masih kosong!");
+        return;
+    }
+
+    alert("Transaksi berhasil ditahan.");
+}
+
+function processPayment() {
+    if (cart.length === 0) {
+        alert("Belum ada barang!");
+        return;
+    }
+
+    const payment =
+        parseFloat(document.getElementById("payment").value) || 0;
+
+    const total = getGrandTotal();
+
+    if (payment < total) {
+        alert("Uang pembayaran masih kurang!");
+        return;
+    }
+
+    const change = payment - total;
+
+    alert(
+        "Pembayaran berhasil!\n\n" +
+        "Total: " + formatRupiah(total) + "\n" +
+        "Bayar: " + formatRupiah(payment) + "\n" +
+        "Kembalian: " + formatRupiah(change)
+    );
+}
+
+function cancelTransaction() {
+    const confirmCancel =
+        confirm("Apakah Anda yakin ingin membatalkan transaksi?");
+
+    if (!confirmCancel) return;
+
+    cart = [];
+
+    document.getElementById("payment").value = "";
+    document.getElementById("discountPercent").value = 0;
+    document.getElementById("tax").value = 0;
+    document.getElementById("otherFee").value = 0;
+
+    renderCart();
+}
+
+document.getElementById("discountPercent")
+    .addEventListener("input", calculateTotal);
+
+document.getElementById("tax")
+    .addEventListener("input", calculateTotal);
+
+document.getElementById("otherFee")
+    .addEventListener("input", calculateTotal);
+
+document.getElementById("payment")
+    .addEventListener("input", calculateChange);
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "F2") {
+        event.preventDefault();
+        searchInput.focus();
+    }
+
+    if (event.key === "F4") {
+        event.preventDefault();
+        document.getElementById("payment").focus();
+    }
+
+    if (event.key === "Escape") {
+        cancelTransaction();
+    }
+});
+
+document.getElementById("currentDate").innerText =
+    new Date().toLocaleString("id-ID");
+
+renderCart();
