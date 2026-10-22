@@ -13,6 +13,18 @@ class ProductImageTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_user_dashboard_uses_blue_branding(): void
+    {
+        $this->actingAs(User::factory()->create());
+
+        $this->get(route('dashboard'))
+            ->assertOk()
+            ->assertSee('--brand-blue: #2563eb', false)
+            ->assertSee('class="card dashboard-card', false)
+            ->assertSee('class="text-primary fw-semibold">Selamat datang,', false)
+            ->assertSee('class="btn btn-primary">Logout</button>', false);
+    }
+
     public function test_product_edit_and_create_pages_render_inside_the_admin_layout(): void
     {
         $this->actingAs(User::factory()->create(['role' => 'admin']));
@@ -26,15 +38,21 @@ class ProductImageTest extends TestCase
             'is_active' => true,
         ]);
 
+        $this->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee('Dashboard | BetaMart Admin')
+            ->assertSee('--admin-accent: #2563eb', false);
+
         $this->get(route('products.edit', $product))
             ->assertOk()
-            ->assertSee('Edit Produk | VioraMart Admin')
-            ->assertSeeInOrder(['ADMIN PANEL', 'Edit Product', 'Nama Product', '© 2026 VioraMart Admin']);
+            ->assertSee('Edit Produk | BetaMart Admin')
+            ->assertSeeInOrder(['ADMIN PANEL', 'Edit Product', 'Nama Product', '© 2026 BetaMart Admin'])
+            ->assertSee('--admin-accent: #2563eb', false);
 
         $this->get(route('products.create'))
             ->assertOk()
-            ->assertSee('Tambah Produk | VioraMart Admin')
-            ->assertSeeInOrder(['ADMIN PANEL', 'Tambah Product', 'Nama Product', '© 2026 VioraMart Admin']);
+            ->assertSee('Tambah Produk | BetaMart Admin')
+            ->assertSeeInOrder(['ADMIN PANEL', 'Tambah Product', 'Nama Product', '© 2026 BetaMart Admin']);
     }
 
     public function test_admin_can_upload_and_replace_a_product_image(): void
@@ -61,6 +79,8 @@ class ProductImageTest extends TestCase
 
         $this->get(route('products.index'))
             ->assertOk()
+            ->assertSee('BetaMart Admin')
+            ->assertSee('--admin-accent: #2563eb', false)
             ->assertSee('src="'.$product->image_url.'"', false);
 
         $this->post(route('products.update', $product), [

@@ -57,3 +57,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Cetak struk kasir
+
+Halaman kasir membaca katalog dari tabel `products` yang sama dengan dashboard admin dan menyegarkannya setiap 5 detik. Produk yang ditambah admin langsung tersedia, perubahan nama/harga ikut memperbarui keranjang terbuka, dan produk yang dihapus atau dinonaktifkan dikeluarkan dari katalog serta keranjang kasir.
+
+Alur **BAYAR & CETAK** adalah:
+
+1. Hubungkan dan instal printer di Windows.
+2. Masukkan barang dan pembayaran di halaman kasir, lalu tekan **BAYAR & CETAK**.
+3. Server membaca ulang produk dan harga dari database, menghitung total, lalu browser membuka dialog cetak Windows. Pilih printer yang diinginkan di dialog tersebut; nama kasir, rincian barang, pembayaran, dan kembalian dicetak di struk.
+4. Setelah dialog ditutup, periksa hasil cetak. Pilih **Cetak ulang** bila perlu, atau **Selesaikan transaksi** untuk membersihkan keranjang.
+
+Dialog browser tidak membutuhkan `KASIR_PRINTER_NAME` dan dapat memilih printer Windows yang tersedia bagi browser.
+
+**Pilihan lanjutan — pengiriman langsung ESC/POS dari server:** endpoint `/kasir/receipt/print` menggunakan Mike42 dan `WindowsPrintConnector`. Untuk menggunakannya, tambahkan printer dengan driver **Generic / Text Only**, bagikan melalui **Printer Properties > Sharing**, atur `KASIR_PRINTER_NAME` di `.env` ke nama share Windows, dan jalankan Laravel menggunakan akun yang memiliki akses ke printer. `KASIR_RECEIPT_COLUMNS=32` untuk kertas 58 mm atau `42` untuk 80 mm. Jalur langsung ini mencetak barcode Code 39 untuk nomor transaksi.

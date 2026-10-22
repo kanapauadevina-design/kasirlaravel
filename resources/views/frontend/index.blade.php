@@ -16,7 +16,7 @@
 
         body {
             min-height: 100vh;
-            background: #f7f7ff;
+            background: #fff5f9;
             color: #333;
         }
 
@@ -53,7 +53,7 @@
         }
 
         .navbar .login-btn {
-            background: #1769e8;
+            background: #ec4899;
             color: white;
             padding: 10px 20px;
             border-radius: 7px;
@@ -68,7 +68,7 @@
             min-height: 300px;
             background: linear-gradient(
                 135deg,
-                #f5f7ff,
+                #fce7f3,
                 #ffffff
             );
 
@@ -111,16 +111,16 @@
 
             background:
                 linear-gradient(
-                    rgba(20, 100, 220, .15),
-                    rgba(20, 100, 220, .05)
+                    rgba(236, 72, 153, .15),
+                    rgba(236, 72, 153, .05)
                 ),
-                #e9efff;
+                #fce7f3;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            color: #1769e8;
+            color: #be185d;
             font-weight: bold;
             font-size: 20px;
         }
@@ -204,12 +204,12 @@
         }
 
         .form-group input:focus {
-            border-color: #1769e8;
+                    border-color: #ec4899;
 
             background: #ffffff;
 
             box-shadow:
-                0 0 0 2px rgba(23, 105, 232, .1);
+                        0 0 0 2px rgba(236, 72, 153, .1);
         }
 
         /* LOGIN BUTTON */
@@ -223,7 +223,7 @@
             border: none;
             border-radius: 6px;
 
-            background: #1769e8;
+                    background: #ec4899;
 
             color: white;
 
@@ -236,7 +236,7 @@
         }
 
         .btn-login:hover {
-            background: #0d5bd1;
+                    background: #be185d;
         }
 
         /* BACK LINK */
@@ -318,7 +318,7 @@
         .install-btn {
             border: none;
 
-            background: #087bdc;
+            background: #db2777;
 
             color: white;
 

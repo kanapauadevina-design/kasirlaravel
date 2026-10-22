@@ -15,12 +15,12 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #333;
+            background: #fff5f9;
+            color: #3f2b3a;
         }
 
         nav {
-            background: #123c69;
+            background: linear-gradient(110deg, #9d174d, #ec4899);
             padding: 18px 50px;
             display: flex;
             justify-content: space-between;

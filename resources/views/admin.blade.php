@@ -33,7 +33,7 @@
                     <div class="text-secondary small">Produk aktif</div>
                     <div class="d-flex align-items-end justify-content-between mt-2">
                         <span class="display-6 fw-bold">{{ number_format($activeProducts) }}</span>
-                        <span class="rounded-3 bg-success-subtle text-success px-3 py-2" aria-hidden="true">✓</span>
+                        <span class="rounded-3 bg-primary-subtle text-primary px-3 py-2" aria-hidden="true">✓</span>
                     </div>
                     <div class="text-secondary small mt-2">Siap ditampilkan di toko</div>
                 </div>
@@ -45,7 +45,7 @@
                     <div class="text-secondary small">Stok menipis</div>
                     <div class="d-flex align-items-end justify-content-between mt-2">
                         <span class="display-6 fw-bold">{{ number_format($lowStockProducts) }}</span>
-                        <span class="rounded-3 bg-warning-subtle text-warning-emphasis px-3 py-2" aria-hidden="true">!</span>
+                        <span class="rounded-3 bg-primary-subtle text-primary px-3 py-2" aria-hidden="true">!</span>
                     </div>
                     <div class="text-secondary small mt-2">Produk dengan stok 5 atau kurang</div>
                 </div>
@@ -57,7 +57,7 @@
                     <div class="text-secondary small">Total persediaan</div>
                     <div class="d-flex align-items-end justify-content-between mt-2">
                         <span class="display-6 fw-bold">{{ number_format($totalStock) }}</span>
-                        <span class="rounded-3 bg-info-subtle text-info-emphasis px-3 py-2" aria-hidden="true">▤</span>
+                        <span class="rounded-3 bg-primary-subtle text-primary px-3 py-2" aria-hidden="true">▤</span>
                     </div>
                     <div class="text-secondary small mt-2">Unit stok seluruh produk</div>
                 </div>

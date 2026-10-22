@@ -8,12 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            --admin-sidebar: #831843;
-            --admin-accent: #db2777;
-            --admin-background: #fff7fb;
-            --bs-primary: #db2777;
-            --bs-primary-rgb: 219, 39, 119;
-            --bs-primary-text-emphasis: #831843;
+            --admin-sidebar: #be185d;
+            --admin-accent: #ec4899;
+            --admin-background: #fff5f9;
+            --bs-primary: #ec4899;
+            --bs-primary-rgb: 236, 72, 153;
+            --bs-primary-text-emphasis: #9d174d;
             --bs-primary-bg-subtle: #fce7f3;
             --bs-primary-border-subtle: #f9a8d4;
         }
@@ -21,7 +21,7 @@
         body {
             min-height: 100vh;
             background: var(--admin-background);
-            color: #1e293b;
+            color: #3f2b3a;
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
 
@@ -46,7 +46,7 @@
 
         .btn-outline-primary {
             --bs-btn-color: #be185d;
-            --bs-btn-border-color: #ec4899;
+            --bs-btn-border-color: #f9a8d4;
             --bs-btn-hover-bg: var(--admin-accent);
             --bs-btn-hover-border-color: var(--admin-accent);
             --bs-btn-active-bg: #9d174d;
@@ -54,7 +54,7 @@
         }
 
         .admin-content .card {
-            border: 1px solid #fce7f3 !important;
+            border: 1px solid #f9d4e7 !important;
             border-radius: 14px;
         }
 
@@ -79,13 +79,13 @@
             height: 38px;
             place-items: center;
             border-radius: 12px;
-            background: #ec4899;
+            background: #f472b6;
             font-weight: 800;
         }
 
         .admin-nav-label {
             margin: .5rem .75rem .65rem;
-            color: #f9a8d4;
+            color: #fbcfe8;
             font-size: .68rem;
             font-weight: 700;
             letter-spacing: .12em;
@@ -127,7 +127,7 @@
             justify-content: space-between;
             gap: 1rem;
             padding: 1rem 2rem;
-            border-bottom: 1px solid #fce7f3;
+            border-bottom: 1px solid #f9d4e7;
             background: #fff;
         }
 
@@ -139,7 +139,7 @@
 
         .admin-footer {
             padding: 1rem 2rem;
-            color: #94a3b8;
+            color: #a1627d;
             font-size: .85rem;
         }
 
@@ -189,7 +189,7 @@
 <body>
     <aside class="admin-sidebar">
         <a class="admin-brand" href="{{ route('admin.dashboard') }}">
-            <span class="admin-brand-mark">V</span>
+            <span class="admin-brand-mark">B</span>
             <span>VioraMart <small class="d-block fw-normal text-white-50">ADMIN PANEL</small></span>
         </a>
 

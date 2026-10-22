@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Dashboard Kasir - VioraMart</title>
 
@@ -265,6 +266,42 @@
             display: flex;
             gap: 10px;
             margin-top: 20px;
+        }
+
+        .receipt-status {
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .receipt-status.is-error {
+            color: #bd5144;
+        }
+
+        .receipt-status.is-success {
+            color: #176b52;
+        }
+
+        .receipt-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .receipt-actions[hidden] {
+            display: none;
+        }
+
+        .receipt-action-button {
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            background: #fff;
+            color: var(--green-dark);
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
         }
 
         .actions button {
@@ -820,7 +857,7 @@
 
         <div>
             <div class="store-name">
-                TOKO RETAIL MAKMUR
+                VIORAMART
             </div>
 
             <small>
@@ -856,8 +893,7 @@
                     <input
                         type="text"
                         id="searchProduct"
-                        placeholder="Cari nama, kode atau barcode..."
-                        oninput="searchProduct(this.value)"
+                        placeholder="Cari nama atau ID produk..."
                     >
 
                     <button type="button" onclick="searchProduct(document.getElementById('searchProduct').value)">
@@ -866,7 +902,21 @@
 
                 </div>
 
-                <div id="productResults"></div>
+                <div id="productResults" aria-live="polite">
+                    @forelse ($products as $product)
+                        <div
+                            class="product-result"
+                            data-product-id="{{ $product->id }}"
+                            onclick="addToCart({{ $product->id }})"
+                        >
+                            <strong>{{ $product->name }}</strong><br>
+                            <small>ID: {{ $product->id }}</small><br>
+                            <span>{{ 'Rp '.number_format((float) $product->price, 0, ',', '.') }}</span>
+                        </div>
+                    @empty
+                        <p class="empty-cart">Belum ada produk aktif di katalog.</p>
+                    @endforelse
+                </div>
 
             </div>
 
@@ -877,8 +927,7 @@
                 <h3>👤 Data Pelanggan</h3>
 
                 <select id="customer">
-                    <option value="">Pilih Pelanggan</option>
-                    <option value="Umum">Umum</option>
+                    <option value="Umum" selected>Umum</option>
                     <option value="Member">Member</option>
                 </select>
 
@@ -977,12 +1026,24 @@
 
                 <div class="summary-row">
                     <span>Pajak</span>
-                    <strong id="tax">Rp 0</strong>
+                    <input
+                        type="number"
+                        id="tax"
+                        value="0"
+                        min="0"
+                        style="width:100px;"
+                    >
                 </div>
 
                 <div class="summary-row">
                     <span>Biaya Lain</span>
-                    <strong id="otherFee">Rp 0</strong>
+                    <input
+                        type="number"
+                        id="otherFee"
+                        value="0"
+                        min="0"
+                        style="width:100px;"
+                    >
                 </div>
 
                 <div class="summary-row total">
@@ -1007,27 +1068,27 @@
 
                 <div class="payment-methods">
 
-                    <button onclick="selectPayment(this, 'Tunai')">
+                    <button type="button" class="payment-method active" onclick="selectPayment(this, 'Tunai')">
                         Tunai
                     </button>
 
-                    <button onclick="selectPayment(this, 'QRIS')">
+                    <button type="button" class="payment-method" onclick="selectPayment(this, 'QRIS')">
                         QRIS
                     </button>
 
-                    <button onclick="selectPayment(this, 'Debit')">
+                    <button type="button" class="payment-method" onclick="selectPayment(this, 'Debit')">
                         Debit
                     </button>
 
-                    <button onclick="selectPayment(this, 'Kredit')">
+                    <button type="button" class="payment-method" onclick="selectPayment(this, 'Kredit')">
                         Kredit
                     </button>
 
-                    <button onclick="selectPayment(this, 'E-Wallet')">
+                    <button type="button" class="payment-method" onclick="selectPayment(this, 'E-Wallet')">
                         E-Wallet
                     </button>
 
-                    <button onclick="selectPayment(this, 'Transfer')">
+                    <button type="button" class="payment-method" onclick="selectPayment(this, 'Transfer')">
                         Transfer
                     </button>
 
@@ -1073,6 +1134,15 @@
                     </button>
 
                 </div>
+                <p id="receiptStatus" class="receipt-status" role="status" aria-live="polite"></p>
+                <div id="receiptActions" class="receipt-actions" hidden>
+                    <button type="button" class="receipt-action-button" onclick="reprintReceipt()">
+                        Cetak ulang
+                    </button>
+                    <button type="button" class="receipt-action-button" onclick="finishReceipt()">
+                        Selesaikan transaksi
+                    </button>
+                </div>
 
             </div>
 
@@ -1084,7 +1154,7 @@
 
 
 <footer>
-    © 2026 Toko Retail Makmur — Sistem Kasir
+    © {{ now()->year }} VioraMart — Sistem Kasir
 </footer>
 
 
@@ -1098,8 +1168,14 @@
 
 </script>
 
+<script>
+    window.kasirProducts = @js($products);
+    window.kasirCatalogUrl = @js(route('kasir.products'));
+    window.kasirReceiptPrepareUrl = @js(route('kasir.receipt.prepare'));
+    window.kasirReceiptPrintUrl = @js(route('kasir.receipt.print'));
+</script>
 
-<script src="{{ asset('assets/js/chasier.js') }}"></script>
+<script src="{{ asset('assets/js/chasier.js') }}?v={{ filemtime(public_path('assets/js/chasier.js')) }}"></script>
 
 </body>
 </html>
